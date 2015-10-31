@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+#map {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#message {
+    margin-top: 15px;
+    padding: 2px;
+}
+
+content{
+    background-color: green;
+}
