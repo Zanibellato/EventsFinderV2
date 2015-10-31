@@ -15,6 +15,7 @@ var app = app || {};
             city: '', //The city in which looking for the events
             lat: null, //Latitude and
             lng: null, // longitude for country and city
+            datetime: [],
             eventbrite: null, // Eventbrite object
             songkick: null // Songkick object
         };
@@ -32,6 +33,7 @@ var app = app || {};
 
         //The form that contains the dropdown list and the text field
         var searchForm = document.getElementById("searchForm");
+        var datetimepicker = document.getElementById("datetimepicker");
 
         //Adding event listener to the buttons
         searchBtn.addEventListener("click", setPreferences);
@@ -46,6 +48,7 @@ var app = app || {};
 
         //Get the user input from the search bar and the select element
         function setPreferences(){
+
             //Hiding the search fields and the search button
             searchBtn.className = "hidden";
             searchForm.className = "hidden";
@@ -60,9 +63,9 @@ var app = app || {};
             //Storing the values from the user inputs
             combiner.country = country.options[country.selectedIndex].value;           
             combiner.city = city.value;
-            
+            combiner.datetime = datetimepicker.value.split(" ");
             //Checking the fields
-            if(combiner.city !== "" && combiner.country !== ""){
+            if(combiner.city !== "" && combiner.country !== "" && combiner.datetime !== ""){
                 //After the user select the country and the city it calls all the functions.
                 initMap();
             }else{
@@ -79,7 +82,7 @@ var app = app || {};
             combiner.eventbrite = new app.Eventbrite();
 
             //Get the events from Eventbrite API using the location parameters
-            var promise1 = combiner.eventbrite.getEventbriteEvents(combiner.country, combiner.city, combiner.lat, combiner.lng).done(function(){
+            var promise1 = combiner.eventbrite.getEventbriteEvents(combiner.country, combiner.city, combiner.lat, combiner.lng, combiner.datetime).done(function(){
                 
                 //Getting a temporary list of eventBrite events
                 var evs = combiner.eventbrite.getList();
@@ -92,7 +95,7 @@ var app = app || {};
             });
 
             combiner.songkick = new app.Songkick();
-            var promise2 = combiner.songkick.getSongkickEvents(combiner.lat, combiner.lng).done(function(){
+            var promise2 = combiner.songkick.getSongkickEvents(combiner.lat, combiner.lng, combiner.datetime).done(function(){
                 var evs = combiner.songkick.getList();
                 for(var i = 0; i < evs.length; i++){
                     var e = evs[i];
@@ -124,7 +127,7 @@ var app = app || {};
         var createMarkers = function () {
             combiner.eventsList.forEach(function (event, i, arr) {                
                 //var shortDescription;
-                console.log(event);
+                //console.log(event);
                 var time;
                 if(event.startTime){
                     time = event.startTime;

@@ -306,8 +306,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="city">Email address</label>
+                            <label class="sr-only" for="city">city</label>
                             <input type="text" class="form-control" id="city" placeholder="Your city">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="datetimepicker">date</label>
+                            <input class="form-control" id="datetimepicker" type="text" placeholder="Pick a date">
                         </div>
                         <button type="button" id="search" class="btn btn-success">Search</button>
                     </form>
@@ -353,7 +357,15 @@
         <script src="js/eventbrite.js"></script>
         <script src="js/combiner.js"></script>
         <script src="js/start.js"></script>
-        
+        <!--DateTime picker plugin-->
+        <link rel="stylesheet" type="text/css" href="js/plugins/datetimepicker/jquery.datetimepicker.css"/ >
+        <script src="js/plugins/datetimepicker/jquery.js"></script>
+        <script src="js/plugins/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+        <script>
+            jQuery('#datetimepicker').datetimepicker({
+              format:'Y.m.d H:i'
+            });
+        </script>
         <!--Google maps API OAuth script-->
         <script src="https://maps.googleapis.com/maps/api/js?callback=start" async defer></script>
     </body>

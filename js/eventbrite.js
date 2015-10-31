@@ -12,19 +12,25 @@ var app = app || {};
         
         
         
-        var getEventbriteEvents = function(country, city, lat, lng){
-            var url = content.url + "&venue.country=" + country + "&venue.city=" + city;
+        var getEventbriteEvents = function(country, city, lat, lng, datetime){
+            var day = datetime[0].replace(/\./g, "-");
+            var hour = "T" + datetime[1];
+            var date = day + hour +":00";
+            var datestring = /*"&start_date.range_start=" + date +*/ "&start_date.range_end=" + date;
+            console.log(date);
+            var url = content.url + "&venue.country=" + country + "&venue.city=" + city + datestring;
             var promise = $.get(url).done(function (res) {
                 //console.log(res);
                 if (res.events.length) {
                     res.events.forEach(function(ev, i , arr){
-                        //console.log(ev);
-                        if(ev.venue){ //Only events with a phifical venue
+                        console.log(ev);
+                        var date = ev.start.local.split("T");
+                        if(ev.venue && date === day){ //Only events with a venue in the specified day
                             var element = new app.Event();
-                            var date = ev.start.local.split("T");
                             var location = ev.venue.address.address_1 + ", " + ev.venue.address.city + ", " +  ev.venue.address.country;
                             var latitude, longitude;
                             var category = "";
+
                             if(ev.category){
                                 category = ev.category.name;
                             }

@@ -9,13 +9,15 @@ var app = app || {};
             eventsList: []
         };
         
-        var getSongkickEvents = function(lat, lng){
-            var url = content.url + lat + "," + lng;
+        var getSongkickEvents = function(lat, lng, datetime){
+            var day = datetime[0].replace(/\./g, "-");
+            var date = "&min_date=" + day + "&max_date=" + day;
+            var url = content.url + lat + "," + lng + date;
             var promise = $.get(url).done(function (res) {
                 //console.dir(res);
                 if (res.resultsPage.results.event) {
                     res.resultsPage.results.event.forEach(function(ev, i , arr){
-                        console.log(ev);
+                        //console.log(ev);
                         var latitude, longitude;
                         if(ev.venue.lat === null  || ev.venue.lng === null){
                             latitude = lat;
